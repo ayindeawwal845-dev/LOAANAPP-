@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FairLoan - Instant Loans & Bill Payments</title>
+    
+</head>
+<style>
+/* --- PREMIUM FINTECH INTERFACE DESIGN --- */
+
+:root {
+    --bg-dark: #0a0e1a;          /* Deep obsidian midnight background */
+    --card-bg: #131929;          /* Slightly lighter glass-card background */
+    --primary: #6366f1;          /* Electric Indigo neon */
+    --primary-glow: rgba(99, 102, 241, 0.15);
+    --accent: #10b981;           /* Mint Green for Success/Money */
+    --accent-glow: rgba(16, 185, 129, 0.2);
+    --text-main: #f3f4f6;        /* Crisp off-white */
+    --text-muted: #9ca3af;       /* Sleek metallic gray */
+    --border-color: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* --- GLOWING NAVBAR --- */
+.navbar {
+    background: rgba(19, 25, 41, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 30%, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.secure-tag {
+    font-size: 0.8rem;
+    color: #6ee7b7;
+}
+
+.user-profile {
+    background: var(--primary-glow);
+    color: #a5b4fc;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* --- THE CONTAINER (MOBILE ARCHITECTURE) --- */
+.container {
+    max-width: 440px;
+    width: 100%;
+    margin: auto;
+    padding: 2rem 1.2rem;
+}
+
+/* --- THE GLASS CARD --- */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2.2rem 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hidden {
+    display: none !important;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.center-text {
+    text-align: center;
+    margin-bottom: 1.5rem !important;
+}
+
+/* --- AUTH TOGGLE TABS --- */
+.auth-toggle {
+    display: flex;
+    background: #020617;
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.auth-toggle button {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+}
+
+.auth-toggle button.active-toggle {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* --- TRUST METRICS ROW --- */
+.metrics-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.metric-item {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 0.8rem;
+    text-align: center;
+    border-radius: 14px;
+}
+
+.metric-item h4 {
+    color: var(--accent);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.metric-item p {
+    font-size: 0.75rem;
+    margin-bottom: 0;
+    color: var(--text-muted);
+}
+
+/* --- PREMIUM FORM CONTROLS --- */
+.form-control {
+    margin-bottom: 1.5rem;
+}
+
+.form-control label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-control input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    background: #070a13;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-control input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.input-tip {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    color: #a5b4fc;
+}
+
+/* Custom Select Dropdowns */
+.custom-select {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    background: #070a13;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+}
+
+/* --- SLIDER UI (DYNAMIC RANGES) --- */
+.input-group {
+    margin-bottom: 2rem;
+}
+
+.input-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+}
+
+.input-group label span {
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #070a13;
+    border-radius: 10px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 10px var(--primary);
+    cursor: pointer;
+    border: 4px solid var(--primary);
+    transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.range-limits {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* --- THE PRICING/SUMMARY CARD --- */
+.repayment-summary {
+    background: linear-gradient(180deg, #070a13 0%, rgba(7, 10, 19, 0.5) 100%);
+    padding: 1.5rem;
+    border-radius: 18px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.repayment-summary p {
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.repayment-summary p:last-child {
+    margin-bottom: 0;
+    padding-top: 0.8rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.repayment-summary strong {
+    color: white;
+    font-size: 1.05rem;
+}
+
+#totalRepayment, #monthlyInstallment {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* --- FINTECH DASHBOARD COMPONENTS --- */
+.success-banner {
+    background: var(--accent-glow);
+    color: #34d399;
+    padding: 1rem;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    margin-bottom: 2rem;
+}
+
+.dashboard-details {
+    background: #070a13;
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+}
+
+.dashboard-details p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.dashboard-details p:last-child {
+    margin-bottom: 0;
+}
+
+.dashboard-details span {
+    color: white;
+    font-weight: 600;
+}
+
+.badge {
+    background-color: var(--accent);
+    color: #064e3b;
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* --- NEON ACTION BUTTONS --- */
+.btn {
+    width: 100%;
+    padding: 1.1rem;
+    background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    background: #374151;
+    color: var(--text-muted);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Secondary Button Layout */
+.btn-secondary {
+    background: transparent !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+    box-shadow: none !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* --- VALUE PROPOSITION HIGHLIGHTS --- */
+.features-container {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.feature-card {
+    background: rgba(19, 25, 41, 0.4);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 16px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.feature-card .icon {
+    font-size: 1.5rem;
+    background: var(--primary-glow);
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.feature-card h5 {
+    color: white;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+}
+
+.feature-card p {
+    font-size: 0.75rem;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* --- APP FOOTER & LEGAL --- */
+.app-footer {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.compliance-text {
+    font-size: 0.7rem !important;
+    line-height: 1.5;
+    color: #4b5563 !important;
+    margin-bottom: 1rem !important;
+}
+
+.security-badges {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* --- APP ENTRY TRANSITION ANIMATION --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+<body>
+
+    <!-- Premium Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">FairLoan 💸</div>
+        <div class="nav-links">
+            <span class="secure-tag">🔒 256-bit SSL</span>
+        </div>
+        <div class="user-profile" id="userProfile" style="display: none;">Welcome</div>
+    </nav>
+
+    <!-- Main Dynamic Application Container -->
+    <div class="container">
+
+        <!-- TRUST METRICS BAR (New: Builds immediate platform authority) -->
+        <div id="marketing-metrics" class="metrics-grid">
+            <div class="metric-item">
+                <h4>₦5B+</h4>
+                <p>Disbursed</p>
+            </div>
+            <div class="metric-item">
+                <h4>5 Mins</h4>
+                <p>Avg. Payout</p>
+            </div>
+            <div class="metric-item">
+                <h4>1M+</h4>
+                <p>Active Users</p>
+            </div>
+        </div>
+
+        <!-- PHASE 1: AUTHENTICATION CONTAINER -->
+        <section id="auth-section" class="card">
+            <div class="auth-toggle">
+                <button id="toggleLoginBtn" class="active-toggle">Login</button>
+                <button id="toggleSignUpBtn">Create Account</button>
+            </div>
+
+            <!-- Login View -->
+            <form id="loginForm" class="auth-form">
+                <h3>Welcome Back</h3>
+                <p class="center-text">Access your personalized credit dashboard instantly.</p>
+                <div class="form-control">
+                    <label>Phone Number</label>
+                    <input type="tel" id="loginPhone" placeholder="***********" required>
+                </div>
+                <div class="form-control">
+                    <label>Secure Pin / Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn">Secure Login</button>
+            </form>
+
+            <!-- Sign Up View -->
+            <form id="signUpForm" class="auth-form hidden">
+                <h3>Get Started in 3 Steps</h3>
+                <p class="center-text">No paperwork, no collateral, completely digital.</p>
+                <div class="form-control">
+                    <label>Full Legal Name (Matches BVN)</label>
+                    <input type="text" id="signUpName" placeholder="Your Full Name" required>
+                </div>
+                <div class="form-control">
+                    <label>Phone Number</label>
+                    <input type="tel" id="signUpPhone" placeholder="***********" required>
+                </div>
+                <div class="form-control">
+                    <label>Create Secure Password</label>
+                    <input type="password" id="signUpPassword" placeholder="Minimum 6 characters" required>
+                </div>
+                <button type="submit" class="btn">Create Free Account</button>
+            </form>
+        </section>
+
+        <!-- PHASE 2: APPLICATION LOAN CALCULATOR -->
+        <section id="calculator-section" class="card hidden">
+            <h2>Select Your Loan Offer</h2>
+            <p>Adjust the sliders below to build a dynamic repayment schedule that works for your budget.</p>
+            
+            <div class="input-group">
+                <label for="loanAmount">Amount Needed: <span id="amountValue">50,000</span></label>
+                <input type="range" id="loanAmount" min="5000" max="500000" step="5000" value="50000">
+                <div class="range-limits"><span>₦5,000</span><span>₦500,000</span></div>
+            </div>
+
+            <div class="input-group">
+                <label for="loanTenure">Repayment Duration: <span id="tenureValue">3 Months</span></label>
+                <input type="range" id="loanTenure" min="1" max="12" step="1" value="3">
+                <div class="range-limits"><span>1 Month</span><span>12 Months</span></div>
+            </div>
+
+            <div class="repayment-summary">
+                <p>Monthly Interest Rate <strong>5% (Fixed)</strong></p>
+                <p>Total Interest Accrued <strong id="interestAccrued">₦7,500</strong></p>
+                <p>Total Repayment Balance <strong id="totalRepayment">₦57,500</strong></p>
+                <p>Equated Monthly Installment (EMI) <strong id="monthlyInstallment">₦19,166/mo</strong></p>
+            </div>
+
+            <button class="btn" id="proceedBtn">Lock Offer & Continue</button>
+        </section>
+
+        <!-- PHASE 3: IDENTITY & BANK VERIFICATION FORM (KYC) -->
+        <section id="form-section" class="card hidden">
+            <h2>Instant Identity Verification</h2>
+            <p>We use industry-standard encryption to verify your account credentials against central banking records.</p>
+            <form id="loanForm">
+                <div class="form-control">
+                    <label>Bank Verification Number (BVN)</label>
+                    <input type="number" id="bvn" required placeholder="222XXXXXXXX" minlength="11" maxlength="11">
+                    <small class="input-tip">Dial *565*0# from your registered SIM to find your BVN.</small>
+                </div>
+                <div class="form-control">
+                    <label>Monthly Average Income</label>
+                    <input type="number" id="income" required placeholder="₦ e.g. 150,000">
+                </div>
+                <div class="form-control">
+                    <label>Purpose of Loan</label>
+                    <select id="loanPurpose" class="custom-select">
+                        <option value="business">Business Expansion</option>
+                        <option value="medical">Medical / Emergency</option>
+                        <option value="education">Tuition / Education</option>
+                        <option value="bills">Utility Bills & Consumables</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Analyze Credit & Disburse</button>
+            </form>
+        </section>
+
+        <!-- PHASE 4: CLIENT LOAN MANAGEMENT DASHBOARD -->
+        <section id="dashboard-section" class="card hidden">
+            <div class="success-banner">⚡ Instant Transfer Successful!</div>
+            <h3>Active Credit Balance</h3>
+            <p>Funds have been systematically wired to your selected commercial bank tier.</p>
+            
+            <div class="dashboard-details">
+                <p>Principal Amount <span><strong id="dashAmount" style="color: var(--accent); font-size:1.2rem;">₦0</strong></span></p>
+                <p>Account Status <span class="badge">Disbursed</span></p>
+                <p>Next Payment Schedule <span id="dueDate">In 30 Days</span></p>
+            </div>
+            
+            <button class="btn" id="repayBtn">Make An Early Repayment</button>
+            <button class="btn btn-secondary" style="margin-top: 12px;" onclick="window.location.reload();">Log Out Securely</button>
+        </section>
+
+        <!-- FEATURE VALUE HIGHLIGHTS (New: Gives context when app feels empty) -->
+        <div id="marketing-features" class="features-container">
+            <div class="feature-card">
+                <span class="icon">🚀</span>
+                <div>
+                    <h5>Instant Automated Underwriting</h5>
+                    <p>Our machine learning protocols score and credit profiles in seconds, bypassing long banking queues.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <span class="icon">📈</span>
+                <div>
+                    <h5>Credit Score Build Optimization</h5>
+                    <p>Repaying your active capital lines on time instantly unlocks higher credit tiers up to ₦1,000,000.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- APP FOOTER & LEGAL COMPLIANCE -->
+        <footer class="app-footer">
+            <p class="compliance-text">
+                FairLoan is licensed as a Money Lender by the State Government under relevant statutory codes. 
+                Data processed is completely governed under strict Data Protection Regulations (NDPR).
+            </p>
+            <div class="security-badges">
+                <span>🛡️ NDPR Compliant</span>
+                <span>PCIDSS Certified ✅</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+      // --- 1. DOM ELEMENT SELECTORS ---
+// Auth Screens
+const authSection = document.getElementById('auth-section');
+const loginForm = document.getElementById('loginForm');
+const signUpForm = document.getElementById('signUpForm');
+const toggleLoginBtn = document.getElementById('toggleLoginBtn');
+const toggleSignUpBtn = document.getElementById('toggleSignUpBtn');
+
+// Marketing Sections (To hide once user logs in)
+const metricsGrid = document.getElementById('marketing-metrics');
+const marketingFeatures = document.getElementById('marketing-features');
+
+// Core App Sections
+const calculatorSection = document.getElementById('calculator-section');
+const formSection = document.getElementById('form-section');
+const dashboardSection = document.getElementById('dashboard-section');
+const loanForm = document.getElementById('loanForm');
+const userProfile = document.getElementById('userProfile');
+
+// Loan Calculator Inputs & Displays
+const loanAmountInput = document.getElementById('loanAmount');
+const loanTenureInput = document.getElementById('loanTenure');
+const amountValueSpan = document.getElementById('amountValue');
+const tenureValueSpan = document.getElementById('tenureValue');
+const interestAccruedSpan = document.getElementById('interestAccrued');
+const totalRepaymentSpan = document.getElementById('totalRepayment');
+const monthlyInstallmentSpan = document.getElementById('monthlyInstallment');
+const proceedBtn = document.getElementById('proceedBtn');
+const dashAmount = document.getElementById('dashAmount');
+
+
+// --- 2. GLOBAL APP STATE (SIMULATED DATA) ---
+let globalUser = {
+    name: "Guest User",
+    phone: "",
+    password: ""
+};
+
+const MONTHLY_INTEREST_RATE = 0.05; // Fixed 5% interest rate
+
+
+// --- 3. AUTHENTICATION SWITCHER LOGIC ---
+toggleSignUpBtn.addEventListener('click', () => {
+    toggleSignUpBtn.classList.add('active-toggle');
+    toggleLoginBtn.classList.remove('active-toggle');
+    signUpForm.classList.remove('hidden');
+    loginForm.classList.add('hidden');
+});
+
+toggleLoginBtn.addEventListener('click', () => {
+    toggleLoginBtn.classList.add('active-toggle');
+    toggleSignUpBtn.classList.remove('active-toggle');
+    loginForm.classList.remove('hidden');
+    signUpForm.classList.add('hidden');
+});
+
+
+// --- 4. SIGN UP SUBMISSION (DATA CAPTURE) ---
+signUpForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Storing data locally in our global variable object
+    globalUser.name = document.getElementById('signUpName').value;
+    globalUser.phone = document.getElementById('signUpPhone').value;
+    globalUser.password = document.getElementById('signUpPassword').value;
+
+    alert("✨ Account Created Successfully! Please enter your details on the login panel to enter.");
+    
+    // Programmatically switch them back over to the login card
+    toggleLoginBtn.click();
+});
+
+
+// --- 5. SECURE LOGIN ROUTING ---
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const phoneInput = document.getElementById('loginPhone').value;
+    const passwordInput = document.getElementById('loginPassword').value;
+
+    // Checks user input against either the newly signed-up user or a default backdoor demo account
+    if ((phoneInput === globalUser.phone && passwordInput === globalUser.password) || 
+        (phoneInput === "08012345678" && passwordInput === "password")) {
+        
+        // If they use the fallback system bypass, assign them a mock name
+        if(phoneInput === "08012345678" && globalUser.phone === "") {
+            globalUser.name = "Demo Rockstar";
+        }
+        
+        // UI Clean up: Hide marketing clutter and auth walls
+        authSection.classList.add('hidden');
+        metricsGrid.classList.add('hidden');
+        marketingFeatures.classList.add('hidden');
+        
+        // Reveal application workspace
+        calculatorSection.classList.remove('hidden');
+        
+        // Mount personalized state into navigation headers
+        userProfile.innerText = `👤 ${globalUser.name}`;
+        userProfile.style.display = 'block';
+    } else {
+        alert("❌ Authentication Failed: Invalid credentials. Sign up to make an account, or login with our demo profile: 08012345678 and password 'password'.");
+    }
+});
+
+
+// --- 6. REALTIME MATHEMATICS UNDERWRITING ---
+function calculateLoan() {
+    const amount = parseInt(loanAmountInput.value);
+    const tenure = parseInt(loanTenureInput.value);
+
+    // Update form indicators on the slider nodes
+    amountValueSpan.innerText = amount.toLocaleString();
+    tenureValueSpan.innerText = `${tenure} ${tenure === 1 ? 'Month' : 'Months'}`;
+
+    // Financial formulas
+    const totalInterest = amount * MONTHLY_INTEREST_RATE * tenure;
+    const totalRepayment = amount + totalInterest;
+    const monthlyInstallment = totalRepayment / tenure;
+
+    // Output raw numerical mutations out directly into modern text blocks
+    interestAccruedSpan.innerText = `₦${Math.round(totalInterest).toLocaleString()}`;
+    totalRepaymentSpan.innerText = `₦${Math.round(totalRepayment).toLocaleString()}`;
+    monthlyInstallmentSpan.innerText = `₦${Math.round(monthlyInstallment).toLocaleString()}/mo`;
+}
+
+// Attach listeners for live slide alterations
+loanAmountInput.addEventListener('input', calculateLoan);
+loanTenureInput.addEventListener('input', calculateLoan);
+
+
+// --- 7. WORKFLOW STEPS ARCHITECTURE ---
+// Calculator -> KYC Verification Screen
+proceedBtn.addEventListener('click', () => {
+    calculatorSection.classList.add('hidden');
+    formSection.classList.remove('hidden');
+});
+
+// KYC Verification Screen -> Automated Fake Bank Disbursement API
+loanForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const submitBtn = formSection.querySelector('.btn');
+    const originalBtnText = submitBtn.innerText;
+    
+    // Visual processing micro-interaction state
+    submitBtn.innerText = "Analyzing Risk Profile & Credit History...";
+    submitBtn.disabled = true;
+
+    setTimeout(() => {
+        const finalAmount = parseInt(loanAmountInput.value);
+        
+        formSection.classList.add('hidden');
+        dashboardSection.classList.remove('hidden');
+        
+        // Push exact values dynamically directly to dashboard cards
+        dashAmount.innerText = `₦${finalAmount.toLocaleString()}`;
+    }, 1800); // 1.8 seconds artificial delay to make it feel like real backend computation
+});
+
+// Mock repayment system trigger
+document.getElementById('repayBtn').addEventListener('click', () => {
+    alert("💳 Redirecting to secure Paystack/Flutterwave gateway...");
+});
+
+// --- 8. INITIAL DEPLOYMENT TRIGGER ---
+calculateLoan();
+    </script>
+</body>
+</html>
